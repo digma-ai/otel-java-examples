@@ -38,7 +38,8 @@ public final class HelloWorldClient {
 
   // it is important to initialize the OpenTelemetry SDK as early as possible in your application's
   // lifecycle.
-  private static final OpenTelemetry openTelemetry = ExampleConfiguration.initOpenTelemetry();
+  private static final OpenTelemetry openTelemetry =
+      ExampleConfiguration.initOpenTelemetry("OtelExampleGrpcClient");
 
   // OTel Tracing API
   private final Tracer tracer =
