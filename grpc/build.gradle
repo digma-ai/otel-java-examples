@@ -20,7 +20,7 @@ dependencies {
     implementation "io.grpc:grpc-stub"
     implementation "io.grpc:grpc-netty-shaded"
 
-    implementation "io.github.digma-ai:digma-otel-instr-grpc:0.3.1-SNAPSHOT"
+    implementation "io.github.digma-ai:digma-otel-instr-grpc:0.3.2-SNAPSHOT"
 
     if (JavaVersion.current().isJava9Compatible()) {
         // Workaround for @javax.annotation.Generated
