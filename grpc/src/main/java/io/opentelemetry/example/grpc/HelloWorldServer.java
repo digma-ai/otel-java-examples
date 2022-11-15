@@ -12,7 +12,6 @@ import io.grpc.ServerBuilder;
 import io.grpc.stub.StreamObserver;
 import io.opentelemetry.api.OpenTelemetry;
 import io.opentelemetry.instrumentation.grpc.v1_6.GrpcTelemetry;
-
 import java.io.IOException;
 import java.util.logging.Logger;
 
@@ -38,9 +37,8 @@ public final class HelloWorldServer {
         ServerBuilder.forPort(PORT)
             .addService(new GreeterImpl())
             // Intercept gRPC calls
-            // .intercept(new OpenTelemetryServerInterceptor())
-            .intercept(new DigmaTracingServerInterceptor())
-            .intercept(grpcTelemetry.newServerInterceptor())
+            .intercept(DigmaTracingServerInterceptor.create()) // acts second
+            .intercept(grpcTelemetry.newServerInterceptor()) // acts first
             .build()
             .start();
     logger.info("Server started, listening on " + PORT);
