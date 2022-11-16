@@ -18,6 +18,10 @@ of them assume you have docker running on your local machine.
     - Note more production-ready instrumentation for gRPC is provided as a part
       of the [OpenTelemetry Java Instrumentation](https://github.com/open-telemetry/opentelemetry-java-instrumentation)
       project.
+    - #Digmatized. On the server side, replaced the interceptors to be:
+      1. DigmaTracingServerInterceptor.create()) // acts second , [see Digma OTEL Library Instrumentation for gRPC](https://github.com/digma-ai/otel-java-instrumentation/blob/main/instrumentation/grpc-16/library/README.md)
+      2. grpcTelemetry.newServerInterceptor())   // acts first  , [see OTEL Library Instrumentation for gRPC](https://github.com/open-telemetry/opentelemetry-java-instrumentation/tree/main/instrumentation/grpc-1.6/library)
+         
 - [Manual instrumentation of HTTP](http)
     - This module provides an example of writing manual instrumentation for
       HTTP, both client and server.
