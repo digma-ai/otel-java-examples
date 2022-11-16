@@ -6,24 +6,13 @@
 
 package io.opentelemetry.example.grpc;
 
-import io.grpc.Contexts;
-import io.grpc.Grpc;
-import io.grpc.Metadata;
+import com.digma.otel.instrumentation.grpc.v1_6.DigmaTracingServerInterceptor;
 import io.grpc.Server;
 import io.grpc.ServerBuilder;
-import io.grpc.ServerCall;
-import io.grpc.ServerCallHandler;
 import io.grpc.stub.StreamObserver;
 import io.opentelemetry.api.OpenTelemetry;
-import io.opentelemetry.api.trace.Span;
-import io.opentelemetry.api.trace.SpanKind;
-import io.opentelemetry.api.trace.Tracer;
-import io.opentelemetry.context.Context;
-import io.opentelemetry.context.Scope;
-import io.opentelemetry.context.propagation.TextMapGetter;
-import io.opentelemetry.context.propagation.TextMapPropagator;
+import io.opentelemetry.instrumentation.grpc.v1_6.GrpcTelemetry;
 import java.io.IOException;
-import java.net.InetSocketAddress;
 import java.util.logging.Logger;
 
 /** Server that manages startup/shutdown of a {@code Greeter} server. */
@@ -34,41 +23,22 @@ public final class HelloWorldServer {
 
   // it is important to initialize the OpenTelemetry SDK as early as possible in your application's
   // lifecycle.
-  private static final OpenTelemetry openTelemetry = ExampleConfiguration.initOpenTelemetry();
-
-  // Extract the Distributed Context from the gRPC metadata
-  private static final TextMapGetter<Metadata> getter =
-      new TextMapGetter<Metadata>() {
-        @Override
-        public Iterable<String> keys(Metadata carrier) {
-          return carrier.keys();
-        }
-
-        @Override
-        public String get(Metadata carrier, String key) {
-          Metadata.Key<String> k = Metadata.Key.of(key, Metadata.ASCII_STRING_MARSHALLER);
-          if (carrier.containsKey(k)) {
-            return carrier.get(k);
-          }
-          return "";
-        }
-      };
+  private static final OpenTelemetry openTelemetry =
+      ExampleConfiguration.initOpenTelemetry("OtelExampleGrpcServer");
 
   private Server server;
 
-  private final Tracer tracer =
-      openTelemetry.getTracer("io.opentelemetry.example.HelloWorldServer");
-  private final TextMapPropagator textFormat =
-      openTelemetry.getPropagators().getTextMapPropagator();
-
   private void start() throws IOException {
     /* The port on which the server should run */
+
+    GrpcTelemetry grpcTelemetry = GrpcTelemetry.create(openTelemetry);
 
     server =
         ServerBuilder.forPort(PORT)
             .addService(new GreeterImpl())
             // Intercept gRPC calls
-            .intercept(new OpenTelemetryServerInterceptor())
+            .intercept(DigmaTracingServerInterceptor.create()) // acts second
+            .intercept(grpcTelemetry.newServerInterceptor()) // acts first
             .build()
             .start();
     logger.info("Server started, listening on " + PORT);
@@ -129,34 +99,6 @@ public final class HelloWorldServer {
           responseObserver.onCompleted();
         }
       };
-    }
-  }
-
-  private class OpenTelemetryServerInterceptor implements io.grpc.ServerInterceptor {
-    @Override
-    public <ReqT, RespT> ServerCall.Listener<ReqT> interceptCall(
-        ServerCall<ReqT, RespT> call, Metadata headers, ServerCallHandler<ReqT, RespT> next) {
-      // Extract the Span Context from the metadata of the gRPC request
-      Context extractedContext = textFormat.extract(Context.current(), headers, getter);
-      InetSocketAddress clientInfo =
-          (InetSocketAddress) call.getAttributes().get(Grpc.TRANSPORT_ATTR_REMOTE_ADDR);
-      // Build a span based on the received context
-      Span span =
-          tracer
-              .spanBuilder("helloworld.Greeter/SayHello")
-              .setParent(extractedContext)
-              .setSpanKind(SpanKind.SERVER)
-              .startSpan();
-      try (Scope innerScope = span.makeCurrent()) {
-        span.setAttribute("component", "grpc");
-        span.setAttribute("rpc.service", "Greeter");
-        span.setAttribute("net.peer.ip", clientInfo.getHostString());
-        span.setAttribute("net.peer.port", clientInfo.getPort());
-        // Process the gRPC call normally
-        return Contexts.interceptCall(io.grpc.Context.current(), call, headers, next);
-      } finally {
-        span.end();
-      }
     }
   }
 

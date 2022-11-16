@@ -16,15 +16,20 @@ subprojects {
 
     repositories {
         mavenCentral()
+        mavenLocal()
         maven {
             // Add snapshot repository
             url "https://oss.sonatype.org/content/repositories/snapshots"
+        }
+        maven {
+            // Snapshots since February 2021
+            url "https://s01.oss.sonatype.org/content/repositories/snapshots"
         }
     }
 
     compileJava {
         sourceCompatibility = "1.8"
-        targetCompatibility = "1.8"
+        targetCompatibility = "11"
     }
 
     dependencies {
