@@ -40,7 +40,7 @@ docker-compose up --build
 In a separate shell, exercise the application by calling its endpoint
 
 ```shell
-curl http://localhost:8080/ping
+curl http://localhost:8642/ping
 ```
 
 Watch for spans, metrics, and logs in the collector log output

@@ -14,6 +14,7 @@ bootRun {
 
 bootJar {
     dependsOn("downloadAgent")
+    dependsOn("downloadDigmaAgentExtension")
 }
 
 dependencies {
@@ -27,5 +28,12 @@ dependencies {
 task downloadAgent(type: Download) {
     src "https://github.com/open-telemetry/opentelemetry-java-instrumentation/releases/latest/download/opentelemetry-javaagent.jar"
     dest project.buildDir.toString() + "/otel/opentelemetry-javaagent.jar"
+    overwrite true
+}
+
+// Download the Digma OpenTelemetry agent extension and put it in the build directory
+task downloadDigmaAgentExtension(type: Download) {
+    src "https://s01.oss.sonatype.org/content/repositories/snapshots/io/github/digma-ai/digma-otel-agent-extension/0.4.12-SNAPSHOT/digma-otel-agent-extension-0.4.12-20221123.145227-1-all.jar"
+    dest project.buildDir.toString() + "/otel/digma-otel-agent-extension.jar"
     overwrite true
 }

@@ -2,9 +2,12 @@ receivers:
   otlp:
     protocols:
       grpc:
+        endpoint: "0.0.0.0:8317"
+
 exporters:
   logging:
     logLevel: DEBUG
+
 service:
   pipelines:
     metrics:
