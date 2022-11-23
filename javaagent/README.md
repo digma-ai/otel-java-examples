@@ -40,6 +40,7 @@ docker-compose up --build
 In a separate shell, exercise the application by calling its endpoint
 
 ```shell
+curl http://localhost:8642/example
 curl http://localhost:8642/ping
 ```
 
