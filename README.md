@@ -37,6 +37,7 @@ of them assume you have docker running on your local machine.
     - This module demonstrates using the OpenTelemetry Java Agent with a simple
       spring boot application. Traces, metrics, and logs are exported to a
       collector via OTLP.
+    - #Digmatized. using [Digma Agent Extension](https://github.com/digma-ai/otel-java-instrumentation/tree/main/agent-extension)
 - [Configuring the Logging Exporters](logging)
     - This module contains a fully-functional example of configuring the
       OpenTelemetry SDK to use a logging exporter.
