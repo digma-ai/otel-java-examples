@@ -8,13 +8,16 @@ services:
       OTEL_EXPORTER_OTLP_ENDPOINT: "http://collector:8317"
       # Logs are disabled by default
       OTEL_LOGS_EXPORTER: "otlp"
+      # Digma entries
+      CODE_PACKAGE_PREFIXES: "io.opentelemetry.example"
+      DEPLOYMENT_ENV: "DOCKERED_EXAMPLE"
     ports:
       - "8642:8642"
     depends_on:
       - collector
 
   collector:
-    image: otel/opentelemetry-collector-contrib:0.62.1
+    image: otel/opentelemetry-collector-contrib:0.66.0
     volumes:
       - ./otel-config.yaml:/otel-config.yaml
     command: ["--config=/otel-config.yaml"]
