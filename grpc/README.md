@@ -7,6 +7,8 @@ The example creates the **Root Span** on the client and sends the distributed co
 over the gRPC request. On the server side, the example shows how to extract the context
 and create a **Child Span**. 
 
+project been **#Digmatized** using [Manual instrumentation of GRPC](https://github.com/digma-ai/otel-java-instrumentation/blob/main/instrumentation/grpc-16/library/README.md).
+
 # How to run
 
 ## Prerequisites

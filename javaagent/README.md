@@ -18,6 +18,8 @@ It consists of a spring boot application with:
   and export it to standard out with
   the [logging exporter](https://github.com/open-telemetry/opentelemetry-collector/tree/main/exporter/loggingexporter)
 
+project been **#Digmatized** [Digma Agent Extension](https://github.com/digma-ai/otel-java-instrumentation/tree/main/agent-extension).
+
 ## Prerequisites
 
 * Java 1.8
@@ -40,7 +42,8 @@ docker-compose up --build
 In a separate shell, exercise the application by calling its endpoint
 
 ```shell
-curl http://localhost:8080/ping
+curl http://localhost:8642/example
+curl http://localhost:8642/ping
 ```
 
 Watch for spans, metrics, and logs in the collector log output
