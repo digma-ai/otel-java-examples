@@ -22,3 +22,5 @@ services:
       - "8317"
     ports:
       - "8317:8317"
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
