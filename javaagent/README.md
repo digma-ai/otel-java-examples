@@ -18,6 +18,8 @@ It consists of a spring boot application with:
   and export it to standard out with
   the [logging exporter](https://github.com/open-telemetry/opentelemetry-collector/tree/main/exporter/loggingexporter)
 
+project been **#Digmatized** [Digma Agent Extension](https://github.com/digma-ai/otel-java-instrumentation/tree/main/agent-extension).
+
 ## Prerequisites
 
 * Java 1.8
