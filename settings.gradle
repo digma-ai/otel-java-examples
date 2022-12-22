@@ -12,6 +12,7 @@ rootProject.name = "otel-java-examples-with-digma"
 include ":opentelemetry-examples-javaagent",
         ":opentelemetry-examples-autoconfigure",
         ":opentelemetry-examples-grpc",
+        ":opentelemetry-examples-grpc-javaagent",
         ":opentelemetry-examples-http",
         ":opentelemetry-examples-jaeger",
         ":opentelemetry-examples-metrics",
