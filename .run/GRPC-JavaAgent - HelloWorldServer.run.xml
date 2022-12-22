@@ -1,0 +1,17 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="GRPC-JavaAgent - HelloWorldServer" type="Application" factoryName="Application">
+    <option name="MAIN_CLASS_NAME" value="io.opentelemetry.example.grpc.HelloWorldServer" />
+    <module name="otel-java-examples-with-digma.opentelemetry-examples-grpc-javaagent.main" />
+    <option name="VM_PARAMETERS" value="-javaagent:build/otel/opentelemetry-javaagent.jar -Dotel.javaagent.configuration-file=src/main/resources/otel-java-agent-server.properties" />
+    <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/grpc-javaagent" />
+    <extension name="coverage">
+      <pattern>
+        <option name="PATTERN" value="io.opentelemetry.example.grpc.*" />
+        <option name="ENABLED" value="true" />
+      </pattern>
+    </extension>
+    <method v="2">
+      <option name="Make" enabled="true" />
+    </method>
+  </configuration>
+</component>
